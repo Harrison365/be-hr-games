@@ -1,19 +1,16 @@
-const seed = require("../db/seeds/seed"); //require the seed script (which will DROPs, CREATEs, and INSERTS specified data.
-const data = require("../db/data/test-data"); //the test data that will populate our test database.
-const db = require("../db/connection"); //imports Pool as db from connection.js . Allowing interaction with our PSQL db using pg. In this case, to end the connection db.end()
-const app = require("../app"); //allows access to our express server (and its endpoints)
-const request = require("supertest"); //allows us to make a rewuest to the express server within our tests.
-//npm run setup-dbs before first test
+const seed = require("../db/seeds/seed");
+const data = require("../db/data/test-data");
+const db = require("../db/connection");
+const app = require("../app");
+const request = require("supertest");
 
 beforeEach(() => {
   return seed(data);
 });
-//before each test we re-seed the test data using the test script, this allows a clean slate each time.
 
 afterAll(() => {
   return db.end();
 });
-//after each test we will need to end our connection (pg) to the database. This saves typing db.end each time.
 
 describe("/app/categories", () => {
   test("200 - returns an array of category objects", () => {
